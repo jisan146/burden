@@ -1,0 +1,27 @@
+select id,NAME_ENG name,father,mother,
+case when male=id then female
+when female=id then male 
+end married,gender,BLOOD_GROUP,dob,dead
+
+from people p left outer join married m on (p.id=m.MALE or p.id=m.female) where  
+id in (
+
+select id from people where
+id in(select id from people where id=&a or father=&a or id in(select father from people where id=&a) or id in(select id from people where father in(select id from people where father=&a )or father in(select father from people where id=&a)))
+or
+id in 
+(select father from people where id
+in(select id from people where id=&a or father=&a or id in(select father from people where id=&a) or id in(select id from people where father in(select id from people where father=&a )or father in(select father from people where id=&a))))
+
+or
+id in(select id from people where id=&a or mother=&a or id in(select mother from people where id=&a) or id in(select id from people where mother in(select id from people where mother=&a )or mother in(select mother from people where id=&a)))
+or
+id in 
+(select mother from people where id
+in(select id from people where id=mother or mother=&a or id in(select mother from people where id=&a) or id in(select id from people where mother in(select id from people where mother=&a )or mother in(select mother from people where id=&a))))
+)
+order by dob
+
+
+ 
+ 
